@@ -498,7 +498,8 @@ a:focus-visible{
   }
 
   .intro h2{
-    font-size:17px;
+    font-size:13px;
+    white-space:normal;
   }
 
   .intro p{
@@ -1200,6 +1201,7 @@ let base = 0;
 let cardS = 0;
 let side = false;
 let dirty = true;
+let fit = 1;
 
 let p = 0;
 let target = 0;
@@ -1220,11 +1222,19 @@ function size(){
   H =
     stage.clientHeight;
 
-  base =
-    H * 1.2;
-
   side =
     innerWidth <= 820;
+
+  /* keep the front bottle fully inside the stage width */
+  fit =
+    Math.min(
+      1,
+      (W * .5) /
+      (.832 * H * products[0]?.r || 1)
+    );
+
+  base =
+    H * 1.2;
 
 
   products.forEach(
@@ -1332,7 +1342,7 @@ function paint(){
 
 
       const h =
-        mix(KH) * H;
+        mix(KH) * H * fit;
 
       const s =
         h / base;
