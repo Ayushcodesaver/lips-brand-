@@ -10,33 +10,73 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BeautyRouteImport } from './routes/beauty'
+import { Route as LookbookRouteImport } from './routes/lookbook'
+import { Route as ShopRouteImport } from './routes/shop'
+import { Route as TheMaisonRouteImport } from './routes/the-maison'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BeautyRoute = BeautyRouteImport.update({
+  id: '/beauty',
+  path: '/beauty',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LookbookRoute = LookbookRouteImport.update({
+  id: '/lookbook',
+  path: '/lookbook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopRoute = ShopRouteImport.update({
+  id: '/shop',
+  path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TheMaisonRoute = TheMaisonRouteImport.update({
+  id: '/the-maison',
+  path: '/the-maison',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/beauty': typeof BeautyRoute
+  '/lookbook': typeof LookbookRoute
+  '/shop': typeof ShopRoute
+  '/the-maison': typeof TheMaisonRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/beauty': typeof BeautyRoute
+  '/lookbook': typeof LookbookRoute
+  '/shop': typeof ShopRoute
+  '/the-maison': typeof TheMaisonRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/beauty': typeof BeautyRoute
+  '/lookbook': typeof LookbookRoute
+  '/shop': typeof ShopRoute
+  '/the-maison': typeof TheMaisonRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/beauty' | '/lookbook' | '/shop' | '/the-maison'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/beauty' | '/lookbook' | '/shop' | '/the-maison'
+  id: '__root__' | '/' | '/beauty' | '/lookbook' | '/shop' | '/the-maison'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BeautyRoute: typeof BeautyRoute
+  LookbookRoute: typeof LookbookRoute
+  ShopRoute: typeof ShopRoute
+  TheMaisonRoute: typeof TheMaisonRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +88,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/beauty': {
+      id: '/beauty'
+      path: '/beauty'
+      fullPath: '/beauty'
+      preLoaderRoute: typeof BeautyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lookbook': {
+      id: '/lookbook'
+      path: '/lookbook'
+      fullPath: '/lookbook'
+      preLoaderRoute: typeof LookbookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/the-maison': {
+      id: '/the-maison'
+      path: '/the-maison'
+      fullPath: '/the-maison'
+      preLoaderRoute: typeof TheMaisonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BeautyRoute: BeautyRoute,
+  LookbookRoute: LookbookRoute,
+  ShopRoute: ShopRoute,
+  TheMaisonRoute: TheMaisonRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
