@@ -545,7 +545,8 @@ a:focus-visible{
 
 <a
   class="brand wide"
-  href="#"
+  href="/"
+  target="_top"
   aria-label="Maison Vell Beauty"
 >
   Maison Vell Beauty
@@ -557,16 +558,17 @@ a:focus-visible{
 >
   <a
     class="on"
-    href="#"
+    href="/"
+    target="_top"
     aria-current="page"
   >
     Collection
   </a>
 
-  <a href="#">The Maison</a>
-  <a href="#">Beauty</a>
-  <a href="#">Lookbook</a>
-  <a href="#">Shop</a>
+  <a href="/the-maison" target="_top">The Maison</a>
+  <a href="/beauty" target="_top">Beauty</a>
+  <a href="/lookbook" target="_top">Lookbook</a>
+  <a href="/shop" target="_top">Shop</a>
 </nav>
 
 <div class="acct wide">
@@ -602,7 +604,7 @@ a:focus-visible{
 </svg>
 </a>
 
-<a href="#">
+<a href="/shop" target="_top">
 Cart (<span id="cart">0</span>)
 </a>
 
@@ -613,12 +615,12 @@ Cart (<span id="cart">0</span>)
   class="r2 wide"
   aria-label="Beauty Departments"
 >
-<a href="#">Nail Colour</a>
-<a href="#">New Arrivals</a>
-<a href="#">Best Sellers</a>
-<a href="#">Collections</a>
-<a href="#">Beauty Ritual</a>
-<a href="#">Our World</a>
+<a href="/shop" target="_top">Nail Colour</a>
+<a href="/shop" target="_top">New Arrivals</a>
+<a href="/shop" target="_top">Best Sellers</a>
+<a href="/shop" target="_top">Collections</a>
+<a href="/beauty" target="_top">Beauty Ritual</a>
+<a href="/the-maison" target="_top">Our World</a>
 </nav>
 
 </header>
@@ -668,7 +670,8 @@ A study in colour, light and lacquer. Six signature shades created to capture th
 
 <a
   class="shop wide"
-  href="#"
+  href="/shop"
+  target="_top"
 >
 Explore the shade
 </a>
@@ -1150,7 +1153,14 @@ CART
 ==========================================================
 */
 
-let cart = 0;
+let cart =
+  +(
+    localStorage.getItem(
+      'mv-cart'
+    ) || 0
+  );
+
+$('cart').textContent = cart;
 
 rail.addEventListener(
   'click',
@@ -1179,9 +1189,14 @@ rail.addEventListener(
       )
     ){
 
+      localStorage.setItem(
+        'mv-cart',
+        ++cart
+      );
+
       $('cart')
         .textContent =
-        ++cart;
+        cart;
 
     }
 
