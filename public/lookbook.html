@@ -15,8 +15,8 @@
   --ink:#16191f;
   --mid:#737b86;
   --dim:#a4adb8;
-  --line:#ebe6df;
-  --ice:#f4f1ec;
+  --line:#eeddd9;
+  --ice:#f7ece9;
 }
 
 *{
@@ -28,7 +28,7 @@
 html,
 body{
   height:100%;
-  background:#fff;
+  background:#faf2f2;
 }
 
 body{
@@ -65,13 +65,13 @@ ul{
   min-height:520px;
   display:grid;
   grid-template-rows:auto 1fr;
-  background:#fff;
+  background:#faf2f2;
 }
 
 header{
   position:relative;
   z-index:5;
-  background:#fff;
+  background:#faf2f2;
   padding:calc(20*var(--u)) calc(46*var(--u)) calc(15*var(--u));
 }
 
@@ -155,19 +155,19 @@ main{
   background:
     linear-gradient(
       transparent 60%,
-      rgba(255,255,255,.72) 100%
+      rgba(252,244,243,.72) 100%
     ),
     linear-gradient(
       90deg,
-      #f6f3ee 0%,
-      #efebe5 38%,
-      #f3f0eb 62%,
-      #faf8f5 100%
+      #f9efee 0%,
+      #f3e4e2 38%,
+      #f6e9e7 62%,
+      #fbf4f3 100%
     ),
     radial-gradient(
       ellipse 70% 55% at 38% 42%,
-      #fdfcfa 0%,
-      #f1ede7 100%
+      #fcf6f5 0%,
+      #f5e7e5 100%
     );
 }
 
@@ -307,7 +307,7 @@ main{
 .rail{
   position:relative;
   overflow:hidden;
-  background:#f7f5f1;
+  background:#f5e6e4;
   min-height:0;
 }
 
@@ -323,12 +323,12 @@ main{
     calc(24*var(--u))
     calc(18*var(--u));
   will-change:transform;
-  background:#f7f5f1;
-  border-bottom:1px solid #ebe6df;
+  background:#f5e6e4;
+  border-bottom:1px solid #eeddd9;
 }
 
 .card.alt{
-  background:#fff;
+  background:#faf2f2;
 }
 
 .fav{
@@ -435,7 +435,7 @@ main{
   position:fixed;
   inset:0;
   z-index:9;
-  background:#f4f1ec;
+  background:#f7ece9;
   transition:opacity .5s;
   pointer-events:none;
 }
