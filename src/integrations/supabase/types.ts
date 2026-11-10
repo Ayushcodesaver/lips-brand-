@@ -14,13 +14,162 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      addresses: {
+        Row: {
+          city: string
+          country: string
+          created_at: string
+          full_name: string
+          id: string
+          line1: string
+          line2: string
+          phone: string
+          postal_code: string
+          region: string
+          user_id: string
+        }
+        Insert: {
+          city: string
+          country: string
+          created_at?: string
+          full_name: string
+          id?: string
+          line1: string
+          line2?: string
+          phone: string
+          postal_code: string
+          region: string
+          user_id: string
+        }
+        Update: {
+          city?: string
+          country?: string
+          created_at?: string
+          full_name?: string
+          id?: string
+          line1?: string
+          line2?: string
+          phone?: string
+          postal_code?: string
+          region?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "addresses_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string
+          id: string
+          items: Json
+          payment_method: string
+          payment_status: string
+          request_id: string
+          shipping: number
+          shipping_address: Json
+          status: string
+          subtotal: number
+          total: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          items: Json
+          payment_method: string
+          payment_status?: string
+          request_id: string
+          shipping: number
+          shipping_address: Json
+          status?: string
+          subtotal: number
+          total: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          items?: Json
+          payment_method?: string
+          payment_status?: string
+          request_id?: string
+          shipping?: number
+          shipping_address?: Json
+          status?: string
+          subtotal?: number
+          total?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string
+          id: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      shopping_bags: {
+        Row: {
+          items: Json
+          user_id: string
+          wishlist: Json
+        }
+        Insert: {
+          items?: Json
+          user_id: string
+          wishlist?: Json
+        }
+        Update: {
+          items?: Json
+          user_id?: string
+          wishlist?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shopping_bags_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      place_cod_order: {
+        Args: { p_address: Json; p_items: Json; p_request_id: string }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
