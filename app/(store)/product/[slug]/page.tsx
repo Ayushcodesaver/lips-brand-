@@ -43,7 +43,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
             </p>
             <p className="wide text-lg">{money(product.price)}</p>
           </div>
-          <p className="text-[15px] leading-relaxed text-[var(--mid)]">{product.note}</p>
+          <p className="t-body">{product.note}</p>
           <p className="flex items-center gap-2 text-sm text-[var(--mid)]">
             <span className="swatch" style={{ background: SWATCH[product.id] }} />
             21-free formula · 12 ml · vegan &amp; cruelty-free

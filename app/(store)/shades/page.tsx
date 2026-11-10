@@ -24,7 +24,7 @@ export default function ShadesPage() {
               style={{ width: 84, height: 84, background: p.hex, boxShadow: 'inset 0 -10px 22px rgba(0,0,0,.18), inset 0 8px 14px rgba(255,255,255,.25)' }}
               aria-hidden
             />
-            <span className="wide text-[13px] tracking-[0.14em]">{p.name}</span>
+            <span className="t-title">{p.name}</span>
             <span className="text-sm text-[var(--mid)]">{p.shade}</span>
             <span className="text-xs text-[var(--dim)]">{money(p.price)}</span>
           </Link>

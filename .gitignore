@@ -20,6 +20,12 @@ build/
 # convex
 .convex/
 
+# GSD workflow runtime (17 MB third-party tooling; .planning/ IS committed)
+.zcode/
+.gsd-runtime
+VERSION
+gsd-file-manifest.json
+
 # logs
 logs
 *.log

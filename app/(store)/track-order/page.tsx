@@ -6,6 +6,7 @@ import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { PageTitle, StoreLayout } from '@/components/store-layout';
+import { BrandLoader } from '@/components/brand-loader';
 import { money } from '@/lib/catalog';
 
 export default function TrackOrderPage() {
@@ -46,7 +47,7 @@ export default function TrackOrderPage() {
         {lookup && (
           <section className="panel">
             <h2>Status</h2>
-            {order === undefined && <p className="text-sm text-[var(--dim)]">Looking up…</p>}
+            {order === undefined && <BrandLoader label="Locating your parcel…" />}
             {order === null && (
               <p className="text-sm text-[var(--mid)]">
                 No order with that reference in your account. Check the code or open{' '}

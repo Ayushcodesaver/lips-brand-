@@ -5,6 +5,7 @@ import { useAuth, SignOutButton } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { PageTitle, StoreLayout } from '@/components/store-layout';
+import { BrandLoader } from '@/components/brand-loader';
 import { money } from '@/lib/catalog';
 
 const CARDS = [
@@ -54,7 +55,9 @@ export default function AccountPage() {
 
         <section className="panel">
           <h2>Latest order</h2>
-          {lastOrder ? (
+          {orders === undefined ? (
+            <BrandLoader label="Opening your order book…" />
+          ) : lastOrder ? (
             <div className="line-item" style={{ gridTemplateColumns: '1fr auto' }}>
               <div>
                 <Link href={`/account/orders/${lastOrder._id}`} className="name">

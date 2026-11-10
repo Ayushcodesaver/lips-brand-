@@ -13,6 +13,70 @@
   --line: #eeddd9;
   --ice: #f7ece9;
   --paper: #faf2f2;
+
+  /*
+   * Declared type scale — commerce surfaces (UI-SPEC, phase 1).
+   * Campaign pages keep their ported scale; do not apply these there.
+   * Allowed Tailwind aliases: text-xs = --text-meta, text-sm = --text-body.
+   * Arbitrary text-[Npx] font sizes are forbidden in commerce pages.
+   */
+  --text-eyebrow-size: 10px;
+  --text-eyebrow-track: 0.22em;
+  --text-title-size: 13px;
+  --text-title-track: 0.14em;
+  --text-em-size: 15px;
+  --text-body-size: 14px;
+  --text-meta-size: 12px;
+}
+
+/* Semantic type roles — use these instead of ad-hoc size utilities. */
+.t-eyebrow {
+  font-family: var(--font-michroma), Michroma, sans-serif;
+  font-size: var(--text-eyebrow-size);
+  letter-spacing: var(--text-eyebrow-track);
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.t-title {
+  font-family: var(--font-michroma), Michroma, sans-serif;
+  font-size: var(--text-title-size);
+  letter-spacing: var(--text-title-track);
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.t-em { font-size: var(--text-em-size); }
+
+.t-body {
+  font-size: var(--text-body-size);
+  line-height: 1.65;
+  color: var(--mid);
+}
+
+.t-meta { font-size: var(--text-meta-size); color: var(--dim); }
+
+/* Branded loading state — replaces bare "Loading…" strings. */
+.brand-loader {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--mid);
+  font-size: var(--text-meta-size);
+  letter-spacing: 0.08em;
+}
+.brand-loader i {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--ink);
+  animation: brand-pulse 1.1s ease-in-out infinite;
+}
+.brand-loader i:nth-child(2) { animation-delay: 0.15s; background: #b98179; }
+.brand-loader i:nth-child(3) { animation-delay: 0.3s; background: #d8a7a0; }
+@keyframes brand-pulse {
+  0%, 100% { opacity: 0.25; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-3px); }
 }
 
 html,

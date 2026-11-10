@@ -5,6 +5,7 @@ import { useQuery } from 'convex/react';
 import { useAuth } from '@clerk/nextjs';
 import { api } from '@/convex/_generated/api';
 import { Bottle } from '@/components/store-layout';
+import { BrandLoader } from '@/components/brand-loader';
 import { money } from '@/lib/catalog';
 import type { Doc } from '@/convex/_generated/dataModel';
 
@@ -31,7 +32,7 @@ export function OrderDetail({ id }: { id: string }) {
   if (!isLoaded || order === undefined) {
     return (
       <div className="empty">
-        <h2>Loading…</h2>
+        <BrandLoader label="Opening your order…" />
       </div>
     );
   }

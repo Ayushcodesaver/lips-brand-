@@ -15,6 +15,13 @@ const eslintConfig = [
       'out/**',
       'convex/_generated/**',
       'next-env.d.ts',
+      // GSD workflow framework (third-party tooling, not app code)
+      '.zcode/**',
+      '.planning/**',
+      'gsd-core/**',
+      'scripts/**',
+      'gsd-file-manifest.json',
+      '.gsd-runtime',
     ],
   },
 ];

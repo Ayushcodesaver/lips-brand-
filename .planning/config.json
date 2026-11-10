@@ -1,0 +1,5 @@
+{
+  "workflow": { "commit_docs": true, "text_mode": false, "ui_interaction_capture": false },
+  "git": { "auto_commit": true },
+  "response_language": "en"
+}

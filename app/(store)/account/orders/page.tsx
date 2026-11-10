@@ -5,6 +5,7 @@ import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { PageTitle, StoreLayout } from '@/components/store-layout';
+import { BrandLoader } from '@/components/brand-loader';
 import { money } from '@/lib/catalog';
 
 export default function MyOrdersPage() {
@@ -28,7 +29,7 @@ export default function MyOrdersPage() {
       <PageTitle eyebrow="My account" title="My orders" />
       <section className="mx-auto max-w-4xl px-5 pb-24">
         <div className="panel">
-          {orders === undefined && <p className="text-sm text-[var(--dim)]">Loading…</p>}
+          {orders === undefined && <BrandLoader label="Opening your order book…" />}
           {orders && orders.length === 0 && (
             <p className="text-sm text-[var(--dim)]">
               No orders yet. <Link href="/shop" className="underline">Shop the collection</Link>

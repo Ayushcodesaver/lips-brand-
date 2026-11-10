@@ -140,7 +140,11 @@ export default function CheckoutPage() {
       const orderId = await verifyOrder({ ...payload, customerEmail: email, gatewayOrderId: created.gatewayOrderId });
       await finish(orderId);
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+      toast.error(
+        err instanceof Error
+          ? err.message
+          : 'The maison could not complete your request — nothing has been charged. Please try again.',
+      );
       router.push('/payment/failed');
     } finally {
       modalOpen.current = false;
