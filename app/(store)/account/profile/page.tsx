@@ -6,6 +6,7 @@ import { useMutation, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { toast } from 'sonner';
 import { PageTitle, StoreLayout } from '@/components/store-layout';
+import { BrandLoader } from '@/components/brand-loader';
 
 export default function ProfilePage() {
   const { isSignedIn, isLoaded } = useAuth();
@@ -48,26 +49,35 @@ export default function ProfilePage() {
     <StoreLayout>
       <PageTitle eyebrow="My account" title="My profile" />
       <div className="mx-auto grid max-w-3xl gap-10 px-5 pb-24">
-        <section className="panel">
-          <h2>Sign-in details</h2>
-          <p className="text-sm leading-relaxed text-[var(--mid)]">
-            Email — <strong className="text-[var(--ink)]">{clerkUser?.primaryEmailAddress?.emailAddress || profile?.email || '—'}</strong>
-            <br />
-            <span className="text-xs">Managed by Clerk. Password changes happen in the sign-in security settings.</span>
-          </p>
-        </section>
-        <section className="panel">
-          <h2>Display name</h2>
-          <div className="field-grid">
-            <label className="col-span-full">
-              <span>Full name</span>
-              <input value={name} maxLength={100} onChange={(e) => setName(e.target.value)} autoComplete="name" />
-            </label>
-          </div>
-          <button className="btn mt-5" onClick={save} disabled={saving || !name.trim()}>
-            {saving ? 'Saving…' : 'Save profile'}
-          </button>
-        </section>
+        {profile === undefined && (
+          <section className="panel">
+            <BrandLoader label="Opening your profile…" />
+          </section>
+        )}
+        {profile !== undefined && (
+          <>
+            <section className="panel">
+              <h2>Sign-in details</h2>
+              <p className="text-sm leading-relaxed text-[var(--mid)]">
+                Email — <strong className="text-[var(--ink)]">{clerkUser?.primaryEmailAddress?.emailAddress || profile?.email || '—'}</strong>
+                <br />
+                <span className="text-xs">Managed by Clerk. Password changes happen in the sign-in security settings.</span>
+              </p>
+            </section>
+            <section className="panel">
+              <h2>Display name</h2>
+              <div className="field-grid">
+                <label className="col-span-full">
+                  <span>Full name</span>
+                  <input value={name} maxLength={100} onChange={(e) => setName(e.target.value)} autoComplete="name" />
+                </label>
+              </div>
+              <button className="btn mt-5" onClick={save} disabled={saving || !name.trim()}>
+                {saving ? 'Saving…' : 'Save profile'}
+              </button>
+            </section>
+          </>
+        )}
       </div>
     </StoreLayout>
   );

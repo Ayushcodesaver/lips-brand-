@@ -19,9 +19,15 @@
 
 ## Interaction contract
 
-1. **Destructive confirmation:** every delete of persisted user data (saved addresses) requires an inline two-step confirm — "Remove this address?" → [Remove address] / [Keep]. Bag item removal stays one-click (recoverable by re-adding).
-2. **Loading states:** bare "Loading…" strings are replaced by a branded loader component (three pulsing ink dots + copy "Preparing your collection…") used by account/order reads.
-3. **Error copy:** checkout catch fallback becomes brand voice: "The maison could not complete your request — nothing has been charged. Please try again."
+1. **Destructive confirmation — full inventory (phase 1 final):**
+   - **Saved address deletion** (`account/addresses`): inline two-step confirm — "Remove this address?" → [Remove address] / [Keep]. Irrecoverable persisted-data loss → confirmed.
+   - **Bag item removal**: one-click — recoverable (re-add from any product page), and checkout still re-validates server-side. No confirm by design.
+   - **Wishlist toggle**: one-click — recoverable. No confirm by design.
+   - **Sign out** (`account`): one-click — reversible (sign back in); no data loss. No confirm by design.
+   - Rule: **confirm exactly the irrecoverable**; anything re-obtainable in one gesture stays frictionless.
+2. **Loading states:** every async read has a branded state — `BrandLoader` (three pulsing ink dots + copy) on account, orders, order detail, track-order, checkout saved-addresses, profile; loading is never conflated with empty.
+3. **Error boundaries:** `app/error.tsx` catches route/Convex errors with brand voice, the error digest for support, and a real retry; `app/not-found.tsx` brands 404s. Framework default crash screens never render.
+4. **Error copy:** checkout catch fallback is brand voice: "The maison could not complete your request — nothing has been charged. Please try again."
 
 ## Non-goals
 

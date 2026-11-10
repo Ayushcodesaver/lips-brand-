@@ -8,6 +8,7 @@ import { useAuth, useUser } from '@clerk/nextjs';
 import { api } from '@/convex/_generated/api';
 import { toast } from 'sonner';
 import { PageTitle, StoreLayout } from '@/components/store-layout';
+import { BrandLoader } from '@/components/brand-loader';
 import { AddressFields } from '@/components/address-form';
 import { useStore } from '@/components/store-provider';
 import { addressSchema, emptyAddress, money, totals, type Address } from '@/lib/catalog';
@@ -172,7 +173,8 @@ export default function CheckoutPage() {
           {/* Step 1 — shipping */}
           <section className="panel">
             <h2>1 · Shipping details</h2>
-            {savedAddresses.length > 0 && (
+            {savedAddresses === undefined && <BrandLoader label="Opening your saved addresses…" />}
+            {savedAddresses !== undefined && savedAddresses.length > 0 && (
               <div className="mb-4 flex flex-col gap-2">
                 {savedAddresses.map((saved: SavedAddress) => (
                   <button
@@ -271,8 +273,10 @@ export default function CheckoutPage() {
 }
 
 /** Subscribes to saved addresses; [] until signed in. */
-function useAddresses(): SavedAddress[] {
+/** Subscribes to saved addresses; undefined while loading, [] when none saved. */
+function useAddresses(): SavedAddress[] | undefined {
   const { isSignedIn } = useAuth();
   const data = useQuery(api.addresses.list, {});
-  return isSignedIn ? (data ?? []) : [];
+  if (!isSignedIn) return [];
+  return data ?? undefined;
 }
