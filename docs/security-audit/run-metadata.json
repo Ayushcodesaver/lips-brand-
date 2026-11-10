@@ -1,0 +1,36 @@
+{
+  "run_id": "lips-brand-run-1",
+  "repo": "lips-brand",
+  "target": "C:/Users/sharm/Downloads/lips brand/lips-brand",
+  "source_ref": "0cddb7175a2aeca4261ff693f87bc27b7fd57c7c (worktree clean)",
+  "profile": "quick",
+  "scope_paths": [
+    "app/",
+    "components/",
+    "convex/",
+    "lib/",
+    "middleware.ts",
+    "next.config.ts",
+    "package.json",
+    ".gitignore"
+  ],
+  "budget": null,
+  "execution_policy": "sandboxed-source-and-local-only",
+  "execution_note": "Host cannot enforce the required OS sandbox controls (external-network isolation, empty allowlisted environment, resource limits). All checks are source-only per SKILL.md; candidates whose decisive result requires execution carry needs_validation blockers.",
+  "selected_companions": [
+    "ATTACK-CLASSES.md",
+    "WEB-PROTOCOL-AND-AUTH.md",
+    "CLIENT-SIDE.md",
+    "SUPPLY-CHAIN-AND-RELEASE.md",
+    "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md",
+    "DATA-ISOLATION-AND-LIFECYCLE.md"
+  ],
+  "prior_run_paths": [],
+  "prior_run_note": "No prior coverage-ledger.json or findings.json exists for this repo; this is the first run.",
+  "shared_file_owners": {
+    "parent": "all shared run files"
+  },
+  "agent_delegation_note": "Hunter, critic and verifier phases are executed inline by the parent agent: this platform exhibited subagent concurrency/quota failures during this session. Evidence bar, fresh-source re-reads, and the candidate gate are unchanged; deviation is disclosed in REPORT.md.",
+  "run_status": "complete",
+  "validator_note": "Validators run on Windows with an O_NOFOLLOW/O_NONBLOCK shim (high-bit flag values tolerated by libuv win32); input files are parent-created regular files with no symlink components — no-follow guarantee upheld by construction. Disclosed in REPORT.md."
+}

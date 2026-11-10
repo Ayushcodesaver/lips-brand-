@@ -1,0 +1,145 @@
+[
+  {
+    "verdict": "needs_validation",
+    "fingerprint": "app/checkout-frame-ancestors-unset",
+    "title": "Checkout has no source-visible frame-ancestors / X-Frame-Options control (UI-redress lead)",
+    "description": "The checkout page drives state-changing actions (COD order placement, Cashfree payment sessions) through ordinary clicks. No frame-blocking header is configured anywhere in the repository, so if the hosting platform does not add one, a third-party page could frame the checkout and complete a payment with the victim's session.",
+    "claimed_root_cause": "next.config.ts defines no headers() configuration and middleware.ts injects nothing; no CSP frame-ancestors or X-Frame-Options is set by any source-controlled component.",
+    "trace": [
+      { "kind": "entrypoint", "file": "app/(store)/checkout/page.tsx", "line": 190, "scope": "checkout step controls", "description": "Continue-to-payment and place-order buttons advance the flow on plain click events with the victim's authenticated session." },
+      { "kind": "propagation", "file": "next.config.ts", "line": 1, "scope": "Next.js configuration", "description": "Configuration contains only reactStrictMode; no headers() block exists anywhere in the repo (verified by grep: 0 hits for headers/frame-ancestors/X-Frame in next.config.ts and middleware.ts)." },
+      { "kind": "sink", "file": "middleware.ts", "line": 15, "scope": "edge middleware", "description": "Middleware is a passthrough that returns NextResponse.next() without injecting security headers." }
+    ],
+    "evidence": [
+      { "file": "next.config.ts", "line": 3, "description": "Whole file inspected (5 statements): no headers, no CSP, no frame-ancestors." },
+      { "file": "middleware.ts", "line": 15, "description": "Default middleware returns NextResponse.next() unconditionally." },
+      { "file": "app/(store)/checkout/page.tsx", "line": 190, "description": "State-changing controls are ordinary buttons; the Convex mutations they trigger are same-origin fetches with the session JWT, executable inside a frame." }
+    ],
+    "blockers": [
+      "The decisive fact is the deployed response header set, which hosting platforms can add outside the repository; source cannot establish whether frame-ancestors/X-Frame-Options is applied in production.",
+      "Local observation would require starting the production server and fetching /checkout headers, which is target-controlled execution — the required OS sandbox controls (network isolation, resource limits) are unavailable on this host."
+    ],
+    "validation_plan": {
+      "local": "With the sandbox controls available (offline host, resource limits), run `npm run build && npx next start` on a loopback-only namespace and `curl -sI http://127.0.0.1:3000/checkout` — confirm absence/presence of X-Frame-Options and CSP frame-ancestors on the deployed configuration.",
+      "deployment": "Owner fetches response headers for /checkout on the live domain and checks for CSP frame-ancestors or X-Frame-Options; if absent, add headers in next.config.ts (committed change makes the control source-visible)."
+    }
+  },
+  {
+    "verdict": "needs_validation",
+    "fingerprint": "checkout/cashfree-sdk-mode-hardcoded-sandbox",
+    "title": "Cashfree drop-in SDK mode is hardcoded to sandbox, diverging from server CASHFREE_ENV",
+    "description": "The checkout client always initializes the Cashfree drop-in in 'sandbox' mode, while the server actions that create and verify payment sessions honor CASHFREE_ENV (sandbox vs https://api.cashfree.com). With production keys configured, the server creates a production payment session but the modal opens against the sandbox environment — online payments cannot complete in production, and the checkout's own sandbox-hint suppression (NEXT_PUBLIC_CASHFREE_MODE) does not affect SDK initialization.",
+    "claimed_root_cause": "app/(store)/checkout/page.tsx line 118 constructs the SDK client with the literal 'sandbox' instead of deriving the mode from the deployment environment shared with the server actions.",
+    "trace": [
+      { "kind": "entrypoint", "file": "app/(store)/checkout/page.tsx", "line": 116, "scope": "checkout placeOrder()", "description": "Client calls createCashfreeOrder and receives a payment session created against the environment chosen by CASHFREE_ENV." },
+      { "kind": "propagation", "file": "app/(store)/checkout/page.tsx", "line": 118, "scope": "SDK initialization", "description": "const cashfree = new Cashfree('sandbox') — literal mode string, independent of any environment variable." },
+      { "kind": "sink", "file": "lib/cashfree.ts", "line": 28, "scope": "server-side base URL selection", "description": "Server actions select https://api.cashfree.com when CASHFREE_ENV=production (orders.ts:76/:124 via cashfreeConfig()), producing production payment_session_id values that the sandbox-mode modal cannot process." }
+    ],
+    "evidence": [
+      { "file": "app/(store)/checkout/page.tsx", "line": 118, "description": "Literal 'sandbox' argument verified in current source." },
+      { "file": "lib/cashfree.ts", "line": 28, "description": "cashfreeBaseUrl() switches on process.env.CASHFREE_ENV — server and client environments diverge." },
+      { "file": "convex/payments.ts", "line": 11, "description": "payments.enabled returns only key presence, not the environment; the client has no source of the server's mode." }
+    ],
+    "blockers": [
+      "The mismatch's observable result (production modal failing to open/complete a production session) requires executing checkout against a production-configured deployment — target-controlled execution, sandbox unavailable on this host."
+    ],
+    "validation_plan": {
+      "local": "With sandbox controls available: configure CASHFREE_ENV=production with test credentials, run checkout on an isolated loopback, and observe that the modal cannot complete a production session; then apply the source fix (pass the mode from payments.enabled) and observe completion.",
+      "deployment": "Owner switches CASHFREE_ENV to production in a staging Convex deployment and attempts one sandbox-card checkout through the modal; the modal environment is visible in the Cashfree dashboard order entries."
+    }
+  },
+  {
+    "verdict": "needs_validation",
+    "fingerprint": "checkout/cashfree-sdk-no-integrity-pin",
+    "title": "Payment-context SDK loaded from provider CDN without integrity pin or version lock",
+    "description": "The checkout injects https://sdk.cashfree.com/js/v3/cashfree.js at runtime with no subresource integrity attribute, version pin, or self-hosting. The script executes in the page origin during the payment session. This is the vendor's documented drop-in integration (an accepted trade-off for most PSP integrations), but provider or CDN compromise would yield script execution in the checkout origin with the payment session in scope.",
+    "claimed_root_cause": "loadCashfreeSdk() appends a third-party script element without an integrity attribute or pinned version, extending runtime trust to the provider's distribution chain.",
+    "trace": [
+      { "kind": "entrypoint", "file": "app/(store)/checkout/page.tsx", "line": 27, "scope": "loadCashfreeSdk()", "description": "Promise-based SDK loader invoked on every online checkout (line 117)." },
+      { "kind": "propagation", "file": "app/(store)/checkout/page.tsx", "line": 31, "scope": "script element creation", "description": "script.src = 'https://sdk.cashfree.com/js/v3/cashfree.js' — unpinned URL, no integrity attribute (verified: 0 hits for 'integrity' in the loader)." },
+      { "kind": "sink", "file": "app/(store)/checkout/page.tsx", "line": 118, "scope": "SDK execution in page origin", "description": "The loaded script drives the payment modal that receives the server-issued payment_session_id; any modified script executes with page-origin authority during payment." }
+    ],
+    "evidence": [
+      { "file": "app/(store)/checkout/page.tsx", "line": 31, "description": "Script URL verified; no SRI, no crossorigin, no version pin." }
+    ],
+    "blockers": [
+      "Provider distribution integrity (current Cashfree CDN behavior, SRI support, recommended pinning) is not source-visible and cannot be established locally.",
+      "Whether an SRI-pinned alternative exists depends on current vendor documentation — an external fact."
+    ],
+    "validation_plan": {
+      "local": "With sandbox controls: fetch the SDK script from the vendor URL in an isolated namespace, hash it, and diff across versions to document drift; test an SRI-tagged or self-hosted variant against the local fixture to confirm the modal still initializes.",
+      "deployment": "Owner consults current Cashfree integration guidance for a pinned/SRI-supported distribution and, if available, adopts it; otherwise records the vendor-trust decision explicitly in SETUP.md."
+    }
+  },
+  {
+    "verdict": "needs_validation",
+    "fingerprint": "payments/create-order-no-rate-limit",
+    "title": "Authenticated users can create unbounded Cashfree orders (operator-owned quota, no rate limiting)",
+    "description": "Every distinct requestId submitted by any authenticated account creates a fresh Cashfree order via an external API call. No rate limit, per-user cap, or quota accounting exists anywhere in source. A scripted account can generate unlimited PSP orders, consuming operator-owned Cashfree API capacity and polluting the merchant dashboard.",
+    "claimed_root_cause": "createCashfreeOrder performs an external paid-API call per request with no throttling or accounting layer between authentication and the PSP call.",
+    "trace": [
+      { "kind": "entrypoint", "file": "convex/orders.ts", "line": 62, "scope": "createCashfreeOrder action", "description": "Public Convex action; only gate is requireUser (orders.ts:70) — any authenticated account qualifies." },
+      { "kind": "propagation", "file": "convex/orders.ts", "line": 77, "scope": "gatewayOrderId derivation", "description": "Each distinct client requestId maps to a distinct Cashfree order_id (lib/cashfree.ts:19-27); no dedupe, cap, or counter exists (grep: 0 hits for rate-limit/throttle in convex/ and lib/)." },
+      { "kind": "sink", "file": "convex/orders.ts", "line": 79, "scope": "external PSP call", "description": "fetch POST {base}/pg/orders with operator API keys — unbounded per caller." }
+    ],
+    "evidence": [
+      { "file": "convex/orders.ts", "line": 79, "description": "External call per invocation, no accounting before it." },
+      { "file": "convex/orders.ts", "line": 62, "description": "requestId is a client-supplied string; no server-side uniqueness constraint stops distinct-UUID loops (the (clerkId,requestId) dedupe applies only to order insertion, not PSP order creation)." }
+    ],
+    "blockers": [
+      "Quota/cost impact is observable only in the Cashfree merchant dashboard — external to source.",
+      "Sandboxed local execution (needed to demonstrate bounded consumption against dummy keys) is unavailable on this host."
+    ],
+    "validation_plan": {
+      "local": "With sandbox controls and dummy Cashfree sandbox keys: run a bounded loop (e.g. 10 requestIds) through a local harness and observe 10 PSP orders created with no rejection — establishing the missing control with dummy spend.",
+      "deployment": "Owner runs a bounded test (5-10 orders) from one test account in the Cashfree sandbox and observes the dashboard order count and any PSP-side rate responses; then decides on a per-user outstanding-order cap."
+    }
+  },
+  {
+    "verdict": "needs_validation",
+    "fingerprint": "payments/customer-email-client-asserted",
+    "title": "Cashfree customer_email is asserted by the client instead of derived from the verified identity",
+    "description": "The checkout passes the customer's email from its client-side Clerk session object as an action argument, and the server forwards it verbatim into Cashfree customer_details without format validation or identity binding. Principal attribution (customer_id) is correctly derived from the verified JWT subject, so account attribution is intact — but the email recorded with the PSP (used for PSP-side receipts/communications) is attacker-chosen, and malformed values make the PSP reject order creation.",
+    "claimed_root_cause": "convex/orders.ts accepts customerEmail as an unvalidated v.string() argument instead of reading it from the verified identity token claims or validating it server-side.",
+    "trace": [
+      { "kind": "entrypoint", "file": "app/(store)/checkout/page.tsx", "line": 107, "scope": "client email derivation", "description": "email = clerkUser?.primaryEmailAddress?.emailAddress ?? fallback — client-side session data passed as an argument." },
+      { "kind": "propagation", "file": "convex/orders.ts", "line": 67, "scope": "action args validation", "description": "customerEmail: v.string() — no email format check, no comparison against any verified claim." },
+      { "kind": "sink", "file": "convex/orders.ts", "line": 93, "scope": "PSP customer_details", "description": "customer_email: args.customerEmail enters the Cashfree order record verbatim." }
+    ],
+    "evidence": [
+      { "file": "convex/orders.ts", "line": 93, "description": "Direct pass-through of the client argument into the PSP record." },
+      { "file": "convex/orders.ts", "line": 92, "description": "Contrast: customer_id is sanitized from the server-verified clerkId — the email is the only client-asserted identity attribute." }
+    ],
+    "blockers": [
+      "Whether Convex getUserIdentity() exposes a verified email claim in this Clerk JWT template configuration is a deployment fact (claim set of the 'convex' JWT template).",
+      "PSP-side consequences (what Cashfree records/emails for an arbitrary address) require PSP observation; sandboxed execution unavailable on this host."
+    ],
+    "validation_plan": {
+      "local": "With sandbox controls: call createCashfreeOrder through a local harness with a dummy identity and email 'attacker@example.com' vs the account's own, and diff the customer_details sent; verify whether the Convex identity claims include an email to bind instead.",
+      "deployment": "Owner checks the Clerk 'convex' JWT template's claim payload for an email claim; if present, bind customer_email to that claim server-side. Owner observes one sandbox order in the Cashfree dashboard to confirm which email is recorded."
+    }
+  },
+  {
+    "verdict": "needs_validation",
+    "fingerprint": "payments/no-reconciliation-webhook",
+    "title": "No payment reconciliation path: a completed payment can remain unrecorded if verification fails",
+    "description": "Order recording depends on a synchronous client-driven verify action that runs immediately after the payment modal closes. If that action fails after money has moved (network error, action timeout, user closes the tab mid-verify), the PSP holds a PAID order but no order row is ever written, and nothing in the repository reconciles it — the customer is charged without a recorded order. The repository contains no webhook receiver or reconciliation job; SETUP.md explicitly defers webhooks to future work.",
+    "claimed_root_cause": "Payment-state persistence is single-path (client-triggered verify) with no server-initiated reconciliation of PSP state.",
+    "trace": [
+      { "kind": "entrypoint", "file": "app/(store)/checkout/page.tsx", "line": 131, "scope": "post-modal verify call", "description": "verifyAndPlaceOnlineOrder runs only on the client's success path." },
+      { "kind": "propagation", "file": "app/(store)/checkout/page.tsx", "line": 133, "scope": "error path", "description": "Any thrown error routes to /payment/failed with no retry queue — the PSP order stays PAID and unrecorded." },
+      { "kind": "sink", "file": "convex/orders.ts", "line": 196, "scope": "insertOrderInternal", "description": "The only writer of order rows; reachable solely through the client-driven actions — grep confirms 0 webhook handlers in app/ and convex/." }
+    ],
+    "evidence": [
+      { "file": "convex/orders.ts", "line": 110, "description": "verifyAndPlaceOnlineOrder is the only path that records online orders; no cron/queue/webhook alternative exists (grep: 0 hits in app/, convex/)." },
+      { "file": "SETUP.md", "line": 49, "description": "Webhook acknowledged as a production TODO — the gap is known but unimplemented." }
+    ],
+    "blockers": [
+      "Demonstrating the result requires observing PSP state across a forced verify failure — an external-service observation; sandboxed execution unavailable on this host."
+    ],
+    "validation_plan": {
+      "deployment": "Owner, in the Cashfree sandbox: create an order via the modal, complete payment with the success test VPA, and block or corrupt the verify call (e.g. offline network after payment) — then observe in the Cashfree dashboard that the order is PAID while no order row exists; confirms the reconciliation gap and sizes the fix.",
+      "local": "With sandbox controls: unit-test a webhook/reconciliation handler fixture against a locally stored PAID-order payload to verify idempotent insertion through insertOrderInternal."
+    }
+  }
+]

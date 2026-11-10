@@ -1,0 +1,1150 @@
+[
+  {
+    "coverage_id": ".github%2Fworkflows::none-in-repo::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Business%20logic",
+    "canonical_refs": {
+      "surface": ".github/workflows",
+      "boundary": "none-in-repo",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "ATTACK-CLASSES.md#Business logic"
+    },
+    "surface": ".github/workflows",
+    "boundary": "none-in-repo",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "ATTACK-CLASSES.md#Business logic",
+    "starting_paths": [
+      "package.json"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "out_of_scope",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "No CI workflows exist in the repository; nothing to audit."
+    ]
+  },
+  {
+    "coverage_id": "app%2F%28store%29%2F%2A%2A%2Bcomponents%2F%2A%2A%20rendering::components%2F%2A%2A%23react-escaping::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Injection",
+    "canonical_refs": {
+      "surface": "app/(store)/**+components/** rendering",
+      "boundary": "components/**#react-escaping",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "ATTACK-CLASSES.md#Injection"
+    },
+    "surface": "app/(store)/**+components/** rendering",
+    "boundary": "components/**#react-escaping",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "ATTACK-CLASSES.md#Injection",
+    "starting_paths": [
+      "app/(store)",
+      "components",
+      "lib"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Injection",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      "app/(store)",
+      "components",
+      "lib"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          "app/(store)",
+          "components",
+          "lib"
+        ],
+        "invariant": "No untrusted input reaches a dangerous client or server sink",
+        "method": "source",
+        "result": "Grep sweep: 0 hits for dangerouslySetInnerHTML/innerHTML/eval(/child_process/document.write across app, components, convex, lib. Search query renders as React text (app/(store)/search/page.tsx:37-41); all order/user values render as text; no URL redirects or executable sinks from user input.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "app%2F%28store%29%2Fcheckout%20framed%20interaction::next.config.ts%23no-frame-ancestors::profile%2Fquick%2Fall-in-scope-subsystems::CLIENT-SIDE.md%23Clickjacking",
+    "canonical_refs": {
+      "surface": "app/(store)/checkout framed interaction",
+      "boundary": "next.config.ts#no-frame-ancestors",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "CLIENT-SIDE.md#Clickjacking"
+    },
+    "surface": "app/(store)/checkout framed interaction",
+    "boundary": "next.config.ts#no-frame-ancestors",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "CLIENT-SIDE.md#Clickjacking",
+    "starting_paths": [
+      "next.config.ts",
+      "app/(store)/checkout/page.tsx"
+    ],
+    "ordinary_attack_class_block": null,
+    "selected_companion_blocks": [
+      "CLIENT-SIDE.md#Core discipline",
+      "CLIENT-SIDE.md#Universal moves",
+      "CLIENT-SIDE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "candidate",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      "next.config.ts",
+      "app/(store)/checkout/page.tsx",
+      "middleware.ts"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          "next.config.ts",
+          "app/(store)/checkout/page.tsx",
+          "middleware.ts"
+        ],
+        "invariant": "The state-changing checkout cannot be framed for UI-redress",
+        "method": "source",
+        "result": "next.config.ts (10 lines) defines no headers() and no CSP/X-Frame-Options/frame-ancestors anywhere in the repo; middleware.ts injects nothing. The checkout completes through ordinary clicks, so a framing page could complete a payment with the victim's session. Hosting-platform headers are not source-visible.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [
+      "app/checkout-frame-ancestors-unset"
+    ],
+    "unresolved": [
+      "Deployed response headers are the decisive fact; owner observes response headers for /checkout (or adds the headers in source, making the control source-visible)."
+    ]
+  },
+  {
+    "coverage_id": "app%2F%28store%29%2Fcheckout%2Fpage.tsx%23loadCashfreeSdk::app%2F%28store%29%2Fcheckout%2Fpage.tsx%23third-party-script-trust::profile%2Fquick%2Fall-in-scope-subsystems::SUPPLY-CHAIN-AND-RELEASE.md%23Mutable%20and%20unbound%20build%20inputs",
+    "canonical_refs": {
+      "surface": "app/(store)/checkout/page.tsx#loadCashfreeSdk",
+      "boundary": "app/(store)/checkout/page.tsx#third-party-script-trust",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "SUPPLY-CHAIN-AND-RELEASE.md#Mutable and unbound build inputs"
+    },
+    "surface": "app/(store)/checkout/page.tsx#loadCashfreeSdk",
+    "boundary": "app/(store)/checkout/page.tsx#third-party-script-trust",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "SUPPLY-CHAIN-AND-RELEASE.md#Mutable and unbound build inputs",
+    "starting_paths": [
+      "app/(store)/checkout/page.tsx"
+    ],
+    "ordinary_attack_class_block": null,
+    "selected_companion_blocks": [
+      "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Universal moves",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "candidate",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      "app/(store)/checkout/page.tsx"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          "app/(store)/checkout/page.tsx"
+        ],
+        "invariant": "The payment-context script is integrity-controlled or its trust is explicitly owned",
+        "method": "source",
+        "result": "checkout:27-39 injects https://sdk.cashfree.com/js/v3/cashfree.js at runtime with no subresource integrity, version pin, or self-hosting; the script executes in the page origin during the payment session. This is Cashfree's documented drop-in integration (accepted vendor trade-off), but a provider/CDN compromise would yield script execution in the checkout origin with the payment session in scope.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [
+      "checkout/cashfree-sdk-no-integrity-pin"
+    ],
+    "unresolved": [
+      "Provider distribution integrity cannot be established from source; owner verifies current Cashfree guidance (SRI support, pinned versions, self-hosting) and decides policy."
+    ]
+  },
+  {
+    "coverage_id": "app%2F%28store%29%2Fcheckout%2Fpage.tsx%23new%20Cashfree%28mode%29::app%2F%28store%29%2Fcheckout%2Fpage.tsx%23sdk-mode-vs-CASHFREE_ENV::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Business%20logic",
+    "canonical_refs": {
+      "surface": "app/(store)/checkout/page.tsx#new Cashfree(mode)",
+      "boundary": "app/(store)/checkout/page.tsx#sdk-mode-vs-CASHFREE_ENV",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "ATTACK-CLASSES.md#Business logic"
+    },
+    "surface": "app/(store)/checkout/page.tsx#new Cashfree(mode)",
+    "boundary": "app/(store)/checkout/page.tsx#sdk-mode-vs-CASHFREE_ENV",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "ATTACK-CLASSES.md#Business logic",
+    "starting_paths": [
+      "app/(store)/checkout/page.tsx",
+      "lib/cashfree.ts",
+      "convex/payments.ts"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "candidate",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      "app/(store)/checkout/page.tsx",
+      "lib/cashfree.ts",
+      "convex/payments.ts"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          "app/(store)/checkout/page.tsx",
+          "lib/cashfree.ts",
+          "convex/payments.ts"
+        ],
+        "invariant": "SDK checkout mode must match the deployment environment the server used to create the session",
+        "method": "source",
+        "result": "checkout:118 hardcodes new Cashfree(\"sandbox\") independent of CASHFREE_ENV, while server actions honor it (lib/cashfree.ts:19-23: sandbox vs https://api.cashfree.com). With CASHFREE_ENV=production the server creates a production session but the drop-in opens in sandbox mode — online payments cannot complete in production.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [
+      "checkout/cashfree-sdk-mode-hardcoded-sandbox"
+    ],
+    "unresolved": [
+      "Result requires running the checkout flow against a production-configured deployment; owner observes modal behavior after switching CASHFREE_ENV."
+    ]
+  },
+  {
+    "coverage_id": "convex%2Faddresses.ts%23add%2Bremove::convex%2Faddresses.ts%23clerkId-scope::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "convex/addresses.ts#add+remove",
+      "boundary": "convex/addresses.ts#clerkId-scope",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "convex/addresses.ts#add+remove",
+    "boundary": "convex/addresses.ts#clerkId-scope",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "ATTACK-CLASSES.md#Access control",
+    "starting_paths": [
+      "convex/addresses.ts",
+      "app/(store)/account/addresses/page.tsx"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      "convex/addresses.ts"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          "convex/addresses.ts"
+        ],
+        "invariant": "A user cannot create, read, or delete another user's address",
+        "method": "source",
+        "result": "addresses.ts:25-33 (list, by_clerk scope), add :35-46 (clerkId from ctx.auth + addressSchema.parse), remove :48-58 (ownership compare before delete). Positive.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "convex%2Fbags.ts%23set::convex%2Fbags.ts%23clerkId-scope%2BbagSchema::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "convex/bags.ts#set",
+      "boundary": "convex/bags.ts#clerkId-scope+bagSchema",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "convex/bags.ts#set",
+    "boundary": "convex/bags.ts#clerkId-scope+bagSchema",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "ATTACK-CLASSES.md#Access control",
+    "starting_paths": [
+      "convex/bags.ts",
+      "lib/catalog.ts",
+      "components/store-provider.tsx"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      "convex/bags.ts",
+      "lib/catalog.ts",
+      "components/store-provider.tsx"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          "convex/bags.ts",
+          "lib/catalog.ts",
+          "components/store-provider.tsx"
+        ],
+        "invariant": "Client-tampered bag contents cannot poison stored or priced state",
+        "method": "source",
+        "result": "bags.ts:31-40 re-parses items with bagSchema (productId 0-5, qty 1-20, no dupes) and filters wishlist to 0-5 server-side; prices are never stored from the client — pricedLines re-derives from catalog at order time.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "convex%2Forders.ts%23createCashfreeOrder::convex%2Forders.ts%23no-rate-limit::profile%2Fquick%2Fall-in-scope-subsystems::RESOURCE-EXHAUSTION-AND-AVAILABILITY.md%23Quota-accounting%20scope%20and%20reset%20gaps",
+    "canonical_refs": {
+      "surface": "convex/orders.ts#createCashfreeOrder",
+      "boundary": "convex/orders.ts#no-rate-limit",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Quota-accounting scope and reset gaps"
+    },
+    "surface": "convex/orders.ts#createCashfreeOrder",
+    "boundary": "convex/orders.ts#no-rate-limit",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Quota-accounting scope and reset gaps",
+    "starting_paths": [
+      "convex/orders.ts",
+      "convex/payments.ts"
+    ],
+    "ordinary_attack_class_block": null,
+    "selected_companion_blocks": [
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Universal moves",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "candidate",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      "convex/orders.ts",
+      "convex/payments.ts",
+      "SETUP.md"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          "convex/orders.ts",
+          "convex/payments.ts",
+          "SETUP.md"
+        ],
+        "invariant": "Authenticated user cannot consume unbounded operator-owned Cashfree API quota",
+        "method": "source",
+        "result": "orders.ts:62-107: every distinct requestId creates a fresh Cashfree order (gatewayOrderId is deterministic per requestId, orders.ts:77 + lib/cashfree.ts:19-27) with no rate limit, cap, or quota accounting anywhere in source; each call performs an external fetch to the PSP (orders.ts:79). Any authenticated account can loop requestIds to generate unbounded PSP orders.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [
+      "payments/create-order-no-rate-limit"
+    ],
+    "unresolved": [
+      "Sandboxed local execution unavailable on this host (SKILL.md universal-safety gate), so quota impact is not locally observable; owner observes Cashfree dashboard order count after a bounded test."
+    ]
+  },
+  {
+    "coverage_id": "convex%2Forders.ts%23createCashfreeOrder::convex%2Fvalidation.ts%23requireUser::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "convex/orders.ts#createCashfreeOrder",
+      "boundary": "convex/validation.ts#requireUser",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "convex/orders.ts#createCashfreeOrder",
+    "boundary": "convex/validation.ts#requireUser",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "ATTACK-CLASSES.md#Access control",
+    "starting_paths": [
+      "convex/orders.ts",
+      "convex/validation.ts"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      "convex/orders.ts",
+      "convex/validation.ts",
+      "convex/auth.config.ts"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          "convex/orders.ts",
+          "convex/validation.ts",
+          "convex/auth.config.ts"
+        ],
+        "invariant": "Unauthenticated caller cannot create a Cashfree payment session",
+        "method": "source",
+        "result": "orders.ts:70 calls requireUser (validation.ts:31-36 throws when getUserIdentity() has no subject) before any Cashfree interaction; auth.config.ts registers the Clerk JWT provider. Convex-side JWT verification is platform behavior — owner confirms CLERK_JWT_ISSUER_DOMAIN/CLERK_APPLICATION_ID are set on the deployment.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "convex%2Forders.ts%23customer_details::convex%2Forders.ts%23customer_email-client-arg::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Chained%20vulnerabilities%20and%20trust%20boundaries",
+    "canonical_refs": {
+      "surface": "convex/orders.ts#customer_details",
+      "boundary": "convex/orders.ts#customer_email-client-arg",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries"
+    },
+    "surface": "convex/orders.ts#customer_details",
+    "boundary": "convex/orders.ts#customer_email-client-arg",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+    "starting_paths": [
+      "convex/orders.ts",
+      "app/(store)/checkout/page.tsx"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "candidate",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      "convex/orders.ts",
+      "app/(store)/checkout/page.tsx"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          "convex/orders.ts",
+          "app/(store)/checkout/page.tsx"
+        ],
+        "invariant": "PSP customer contact data must come from the verified identity, not client arguments",
+        "method": "source",
+        "result": "checkout:107 takes the email from the Clerk client session object and sends it as an action argument; orders.ts:67 accepts v.string() with no format/ownership check and passes it verbatim into Cashfree customer_details (:93). Principal attribution (customer_id) is correctly derived from the verified clerkId (:92) — the email is auxiliary but attacker-chosen. Invalid values would also make the PSP reject order creation.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [
+      "payments/customer-email-client-asserted"
+    ],
+    "unresolved": [
+      "Result needs PSP-side observation (what Cashfree records/emails for an arbitrary customer_email); sandboxed execution unavailable on this host."
+    ]
+  },
+  {
+    "coverage_id": "convex%2Forders.ts%23mine%2Bget::convex%2Forders.ts%23clerkId-owner-scope::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "convex/orders.ts#mine+get",
+      "boundary": "convex/orders.ts#clerkId-owner-scope",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "convex/orders.ts#mine+get",
+    "boundary": "convex/orders.ts#clerkId-owner-scope",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "ATTACK-CLASSES.md#Access control",
+    "starting_paths": [
+      "convex/orders.ts",
+      "app/(store)/order/[id]/page.tsx",
+      "components/order-detail.tsx"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      "convex/orders.ts",
+      "components/order-detail.tsx"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          "convex/orders.ts",
+          "components/order-detail.tsx"
+        ],
+        "invariant": "A user cannot read another user's order",
+        "method": "source",
+        "result": "orders.ts:225-232 (mine) filters by ctx.auth-derived clerkId via by_clerk_date; orders.ts:235-244 (get) compares order.clerkId !== clerkId and returns null; client URL id param is validated as a Convex id. Positive: no IDOR path found.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "convex%2Forders.ts%23placeCodOrder::convex%2Forders.ts%23insertOrderInternal-idempotency::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Business%20logic",
+    "canonical_refs": {
+      "surface": "convex/orders.ts#placeCodOrder",
+      "boundary": "convex/orders.ts#insertOrderInternal-idempotency",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "ATTACK-CLASSES.md#Business logic"
+    },
+    "surface": "convex/orders.ts#placeCodOrder",
+    "boundary": "convex/orders.ts#insertOrderInternal-idempotency",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "ATTACK-CLASSES.md#Business logic",
+    "starting_paths": [
+      "convex/orders.ts"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      "convex/orders.ts"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          "convex/orders.ts"
+        ],
+        "invariant": "Checkout requestId replay cannot create duplicate orders or double charges",
+        "method": "source",
+        "result": "orders.ts:170-174: insertOrderInternal dedupes on (clerkId, requestId) via the by_request index and returns the existing id; the Cashfree order_id is deterministic from requestId (lib/cashfree.ts:19-27) so PSP-side replay resolves to the same gateway order.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "convex%2Forders.ts%23verify-error-path::convex%2Forders.ts%23no-reconciliation-webhook::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Business%20logic",
+    "canonical_refs": {
+      "surface": "convex/orders.ts#verify-error-path",
+      "boundary": "convex/orders.ts#no-reconciliation-webhook",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "ATTACK-CLASSES.md#Business logic"
+    },
+    "surface": "convex/orders.ts#verify-error-path",
+    "boundary": "convex/orders.ts#no-reconciliation-webhook",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "ATTACK-CLASSES.md#Business logic",
+    "starting_paths": [
+      "convex/orders.ts",
+      "SETUP.md"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "candidate",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      "convex/orders.ts",
+      "SETUP.md"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          "convex/orders.ts",
+          "SETUP.md"
+        ],
+        "invariant": "A completed payment is always reconciled into a recorded order even when post-modal verification fails",
+        "method": "source",
+        "result": "orders.ts:126-135: if the verify action throws after a successful payment (network error, action timeout), the client redirects to /payment/failed and no order is written; the repo defines no Cashfree webhook receiver or reconciliation job (grep: no webhook handler), so a PAID PSP order can remain unrecorded — customer charged without an order. SETUP.md §3 flags webhooks as a production TODO.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [
+      "payments/no-reconciliation-webhook"
+    ],
+    "unresolved": [
+      "Requires observing PSP behavior across a forced verify failure (owner test in Cashfree sandbox); local execution blocked by the unavailable sandbox."
+    ]
+  },
+  {
+    "coverage_id": "convex%2Forders.ts%23verifyAndPlaceOnlineOrder::convex%2Forders.ts%23verify-PAID-and-amount::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Business%20logic",
+    "canonical_refs": {
+      "surface": "convex/orders.ts#verifyAndPlaceOnlineOrder",
+      "boundary": "convex/orders.ts#verify-PAID-and-amount",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "ATTACK-CLASSES.md#Business logic"
+    },
+    "surface": "convex/orders.ts#verifyAndPlaceOnlineOrder",
+    "boundary": "convex/orders.ts#verify-PAID-and-amount",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "ATTACK-CLASSES.md#Business logic",
+    "starting_paths": [
+      "convex/orders.ts"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      "convex/orders.ts",
+      "lib/cashfree.ts"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          "convex/orders.ts",
+          "lib/cashfree.ts"
+        ],
+        "invariant": "A payment is recorded as paid only after server-side verification with the PSP",
+        "method": "source",
+        "result": "orders.ts:125-142 re-fetches the order from Cashfree with server-side keys, requires order_status === \"PAID\" (:137) and |paid - amountInr| <= 1 (:140, amountInr recomputed server-side from catalog :121-122) before insertOrderInternal; client payment claims are never trusted.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "convex%2Fusers.ts%23ensure%2BupdateName%2Bme::convex%2Fusers.ts%23self-scope::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "convex/users.ts#ensure+updateName+me",
+      "boundary": "convex/users.ts#self-scope",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "convex/users.ts#ensure+updateName+me",
+    "boundary": "convex/users.ts#self-scope",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "ATTACK-CLASSES.md#Access control",
+    "starting_paths": [
+      "convex/users.ts"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "quick_profile_final_critic: accepted by the final coverage-critic after the single hunter wave; self-scope write surface (ensure/updateName/me) requires its own assignment in the next run"
+    ]
+  },
+  {
+    "coverage_id": "deploy%20manifests%20%28Dockerfile%2FIaC%29::none-in-repo::profile%2Fquick%2Fall-in-scope-subsystems::CLOUD-AND-DEPLOYMENT.md%23Workload%20identity%20and%20IAM%20attack%20classes",
+    "canonical_refs": {
+      "surface": "deploy manifests (Dockerfile/IaC)",
+      "boundary": "none-in-repo",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "CLOUD-AND-DEPLOYMENT.md#Workload identity and IAM attack classes"
+    },
+    "surface": "deploy manifests (Dockerfile/IaC)",
+    "boundary": "none-in-repo",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "CLOUD-AND-DEPLOYMENT.md#Workload identity and IAM attack classes",
+    "starting_paths": [
+      "next.config.ts"
+    ],
+    "ordinary_attack_class_block": null,
+    "selected_companion_blocks": [],
+    "excluded_blocks": [],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "out_of_scope",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "Deployment is external to the repo (hosting platform); no manifests in source."
+    ]
+  },
+  {
+    "coverage_id": "middleware.ts%2Bproviders.tsx%20route%20gating::convex%2Fauth.config.ts%23clerk-jwt-consumption::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "middleware.ts+providers.tsx route gating",
+      "boundary": "convex/auth.config.ts#clerk-jwt-consumption",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "middleware.ts+providers.tsx route gating",
+    "boundary": "convex/auth.config.ts#clerk-jwt-consumption",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "ATTACK-CLASSES.md#Access control",
+    "starting_paths": [
+      "middleware.ts",
+      "components/providers.tsx",
+      "components/store-shell.tsx",
+      "convex/auth.config.ts",
+      "convex/validation.ts"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+      "WEB-PROTOCOL-AND-AUTH.md#Universal moves",
+      "WEB-PROTOCOL-AND-AUTH.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      "middleware.ts",
+      "components/providers.tsx",
+      "components/store-shell.tsx",
+      "convex/validation.ts"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          "middleware.ts",
+          "components/providers.tsx",
+          "components/store-shell.tsx",
+          "convex/validation.ts"
+        ],
+        "invariant": "No privileged operation is reachable without a Convex-verified identity",
+        "method": "source",
+        "result": "middleware.ts is a documented passthrough; page-level guards are client-side UX only. The enforcing boundary is per-function requireUser/currentUser in Convex (validation.ts:31-45) — every privileged query/mutation/action is identity-checked there. Hardening note retained: edge-side route protection could be added with clerkMiddleware once keys exist.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "repo%20release%20inputs::.gitignore%23env-exclusions::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Cryptography%20and%20secrets",
+    "canonical_refs": {
+      "surface": "repo release inputs",
+      "boundary": ".gitignore#env-exclusions",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "ATTACK-CLASSES.md#Cryptography and secrets"
+    },
+    "surface": "repo release inputs",
+    "boundary": ".gitignore#env-exclusions",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "ATTACK-CLASSES.md#Cryptography and secrets",
+    "starting_paths": [
+      ".gitignore",
+      "package.json",
+      ".env.example",
+      "SETUP.md"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Cryptography and secrets",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      ".gitignore",
+      "package.json",
+      ".env.example",
+      "SETUP.md"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          ".gitignore",
+          "package.json",
+          ".env.example",
+          "SETUP.md"
+        ],
+        "invariant": "No secret-class material is tracked in the repository",
+        "method": "source",
+        "result": "git ls-files shows only .env.example tracked; .gitignore excludes .env* and node_modules; .env.local (placeholders) is untracked. Cashfree secrets live only in Convex deployment env (SETUP.md §3). History note: the pre-rebuild commit (11befca) tracked a Supabase .env containing publishable/anon keys and a project id — public-by-design values, not secret-class; recorded as a hardening note.",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  },
+  {
+    "coverage_id": "repo-wide%20obvious-exposure%20sweep::grep-sweep%23secrets%2Bdebug%2Beval::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Obvious%20things",
+    "canonical_refs": {
+      "surface": "repo-wide obvious-exposure sweep",
+      "boundary": "grep-sweep#secrets+debug+eval",
+      "subsystem": "profile/quick/all-in-scope-subsystems",
+      "attack_class": "ATTACK-CLASSES.md#Obvious things"
+    },
+    "surface": "repo-wide obvious-exposure sweep",
+    "boundary": "grep-sweep#secrets+debug+eval",
+    "subsystem": "profile/quick/all-in-scope-subsystems",
+    "attack_class": "ATTACK-CLASSES.md#Obvious things",
+    "starting_paths": [
+      "package.json",
+      "convex/orders.ts",
+      "app/(store)/checkout/page.tsx"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Obvious things",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "MEMORY-SAFETY-AND-BINARY.md",
+        "reason": "No native/binary/parser-of-bytes code; TypeScript/React only."
+      },
+      {
+        "block": "AI-AND-LLM.md",
+        "reason": "No model, RAG, MCP, or tool-calling integration anywhere in source."
+      },
+      {
+        "block": "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+        "reason": "No desktop app, mobile app, webview bridge, or local IPC surface."
+      },
+      {
+        "block": "PROTOCOLS-RPC-AND-MESSAGING.md",
+        "reason": "No broker, queue, webhook receiver, or custom protocol endpoint in repo."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "covered",
+    "agent_id": "parent-hunter",
+    "reviewed_paths": [
+      "package.json",
+      ".gitignore",
+      "convex/orders.ts",
+      "app",
+      "components"
+    ],
+    "local_checks": [
+      {
+        "agent_id": "parent-hunter",
+        "reviewed_paths": [
+          "package.json",
+          ".gitignore",
+          "convex/orders.ts",
+          "app",
+          "components"
+        ],
+        "invariant": "No hardcoded secrets, debug/admin endpoints, or dynamic execution sinks",
+        "method": "source",
+        "result": "Secret grep across source: only placeholder values in untracked .env.local and empty .env.example; no password/token/apikey literals in app code. No /debug, /admin, /env route handlers exist (no app/api at all). Dependencies pinned via committed package-lock.json; all external URLs https. CVE scan deferred to owner (npm audit requires registry access, prohibited this run).",
+        "artifact": null
+      }
+    ],
+    "result_fingerprints": [],
+    "unresolved": []
+  }
+]
