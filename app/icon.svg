@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Maison Vell Beauty — lacquer bottle mark (Velvet Rouge on porcelain) -->
+  <rect width="64" height="64" rx="14" fill="#faf2f2"/>
+  <rect x="20" y="27" width="24" height="29" rx="6" fill="#7a1420"/>
+  <rect x="24" y="31" width="4" height="21" rx="2" fill="#a32736" opacity="0.55"/>
+  <rect x="26" y="14" width="12" height="12" rx="2.5" fill="#16191f"/>
+  <rect x="18" y="53" width="28" height="3" rx="1.5" fill="#16191f" opacity="0.85"/>
+</svg>

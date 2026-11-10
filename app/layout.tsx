@@ -10,7 +10,6 @@ export const metadata: Metadata = {
   title: { default: 'Maison Vell Beauty — The Nail Colour Collection', template: '%s | Maison Vell Beauty' },
   description:
     'Six signature nail lacquers in a 21-free formula. Velvet Rouge, Nude Cashmere, Rose Silk, Champagne Veil, Midnight Noir and Pearl Ivory.',
-  icons: { icon: '/favicon.ico' },
 };
 
 /**
