@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Heart, ShoppingBag, UserRound, ArrowUpRight } from 'lucide-react';
+import { Heart, ShoppingBag, UserRound, Search } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { useStore, productCount } from './store-provider';
 import { products } from '@/lib/catalog';
@@ -30,10 +30,16 @@ export function StoreLayout({ children }: { children: ReactNode }) {
         </Link>
         <nav className="store-nav" aria-label="Store">
           <Link href="/shop">Shop</Link>
-          <Link href="/beauty">Beauty</Link>
+          <Link href="/shades">Collections</Link>
           <Link href="/lookbook">Lookbook</Link>
+          <Link href="/beauty">Beauty</Link>
+          <Link href="/the-maison">The Maison</Link>
+          <Link href="/editorial">Editorial</Link>
         </nav>
         <div className="store-actions">
+          <Link href="/search" className="icon-link" aria-label="Search" title="Search">
+            <Search />
+          </Link>
           <Link href={signedIn ? '/account' : '/auth'} className="icon-link" aria-label={signedIn ? 'My account' : 'Sign in'} title={signedIn ? 'My account' : 'Sign in'}>
             <UserRound />
           </Link>
@@ -49,14 +55,43 @@ export function StoreLayout({ children }: { children: ReactNode }) {
       <main className="store-main">{children}</main>
       <footer className="store-footer">
         <div className="wordmark">MAISON VELL BEAUTY</div>
-        <nav aria-label="Customer care">
-          <Link href="/shipping">Shipping &amp; returns</Link>
-          <Link href="/faq">FAQ</Link>
-          <Link href="/account">
-            My account <ArrowUpRight className="inline size-3" />
-          </Link>
-        </nav>
-        <span>© 2026 Maison Vell Beauty</span>
+        <div className="footer-cols">
+          <div>
+            <h3>Shop</h3>
+            <Link href="/shop">Shop All</Link>
+            <Link href="/new-arrivals">New Arrivals</Link>
+            <Link href="/best-sellers">Best Sellers</Link>
+            <Link href="/shades">Collections</Link>
+          </div>
+          <div>
+            <h3>About</h3>
+            <Link href="/the-maison">The Maison</Link>
+            <Link href="/beauty">Beauty</Link>
+            <Link href="/lookbook">Lookbook</Link>
+            <Link href="/editorial">Editorial</Link>
+          </div>
+          <div>
+            <h3>Customer Care</h3>
+            <Link href="/contact">Contact</Link>
+            <Link href="/faq">FAQ</Link>
+            <Link href="/shipping">Shipping</Link>
+            <Link href="/returns">Returns</Link>
+            <Link href="/track-order">Track Order</Link>
+          </div>
+          <div>
+            <h3>Legal</h3>
+            <Link href="/privacy-policy">Privacy Policy</Link>
+            <Link href="/terms">Terms</Link>
+            <Link href="/refund-policy">Refund Policy</Link>
+            <Link href="/shipping-policy">Shipping Policy</Link>
+            <Link href="/cancellation-policy">Cancellation Policy</Link>
+          </div>
+        </div>
+        <div className="footer-social">
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+          <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">Pinterest</a>
+        </div>
+        <span>© 2026 Maison Vell Beauty · Beauty · Colour · Elegance</span>
       </footer>
     </div>
   );

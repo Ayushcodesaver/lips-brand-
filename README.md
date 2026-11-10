@@ -25,9 +25,11 @@ Until keys are configured:
 | Area | Routes |
 | --- | --- |
 | Campaign pages (ported pixel-for-pixel from the original design) | `/` · `/shop` · `/lookbook` · `/beauty` · `/the-maison` · `/editorial` |
-| Commerce | `/product/[slug]` · `/bag` · `/wishlist` · `/checkout` · `/order/[id]` |
-| Account | `/auth` · `/account` |
-| Care | `/shipping` · `/faq` |
+| Storefront collections | `/new-arrivals` · `/best-sellers` · `/collections/nail-lacquer` · `/collections/limited-edition` · `/shades` |
+| Commerce | `/product/[slug]` · `/search` · `/bag` · `/wishlist` · `/checkout` · `/order/[id]` · `/payment/success` · `/payment/failed` |
+| Account | `/auth` · `/account` · `/account/profile` · `/account/orders` · `/account/orders/[id]` · `/account/addresses` |
+| Customer care | `/contact` · `/faq` · `/shipping` · `/returns` · `/track-order` · `/nail-care` · `/payment-information` |
+| Legal | `/privacy-policy` · `/terms` · `/refund-policy` · `/shipping-policy` · `/cancellation-policy` |
 
 - **Payments:** Cashfree Orders API via Convex actions — the bag, address and amount are re-validated
   server-side, prices are recomputed from `lib/catalog.ts` (never trusted from the client), USD prices are

@@ -69,6 +69,7 @@ export declare const api: {
   users: {
     ensure: FunctionReference<'mutation', 'public', { fullName: string; email: string }, string>;
     me: FunctionReference<'query', 'public', {}, { fullName: string; email: string } | null>;
+    updateName: FunctionReference<'mutation', 'public', { fullName: string }, string>;
   };
 };
 

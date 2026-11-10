@@ -28,6 +28,26 @@ export const ensure = mutation({
   },
 });
 
+/** Updates the display name on my profile row. */
+export const updateName = mutation({
+  args: { fullName: v.string() },
+  handler: async (ctx, args) => {
+    const clerkId = await currentUser(ctx);
+    if (!clerkId) throw new Error('Sign in first');
+    const fullName = args.fullName.trim().slice(0, 100);
+    if (!fullName) throw new Error('Please enter your name');
+    const existing = await ctx.db
+      .query('users')
+      .withIndex('by_clerk_id', (q) => q.eq('clerkId', clerkId))
+      .unique();
+    if (existing) {
+      await ctx.db.patch(existing._id, { fullName });
+      return existing._id;
+    }
+    return await ctx.db.insert('users', { clerkId, fullName, email: '', createdAt: Date.now() });
+  },
+});
+
 /** My profile (null when signed out). */
 export const me = query({
   args: {},

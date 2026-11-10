@@ -124,13 +124,15 @@ export default function CheckoutPage() {
       modalOpen.current = false;
 
       if (result?.error) {
-        toast.error('The payment window was closed or failed. No charge was made to a pending order.');
+        toast.error('The payment window was closed or failed. No amount has been charged.');
+        router.push('/payment/failed');
         return;
       }
       const orderId = await verifyOrder({ ...payload, customerEmail: email, gatewayOrderId: created.gatewayOrderId });
       await finish(orderId);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+      router.push('/payment/failed');
     } finally {
       modalOpen.current = false;
       setBusy(false);

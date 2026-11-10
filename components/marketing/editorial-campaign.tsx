@@ -133,7 +133,7 @@ export default function EditorialCampaign() {
           <div className={`${styles.acct} ${styles.wide}`}>
             <Link href={signedIn ? '/account' : '/auth'}>Login</Link>
 
-            <Link href="#" aria-label="Search">
+            <Link href="/search" aria-label="Search">
               <svg viewBox="0 0 24 24">
                 <circle cx="10.5" cy="10.5" r="6.5" />
                 <path d="m15.5 15.5 5 5" />

@@ -7,14 +7,7 @@ import { PageTitle, Bottle, StoreLayout } from '@/components/store-layout';
 import { useStore } from '@/components/store-provider';
 import { money, products, productBySlug } from '@/lib/catalog';
 
-const SWATCH: Record<number, string> = {
-  0: '#7a1420',
-  1: '#caa88f',
-  2: '#b97383',
-  3: '#d9c39a',
-  4: '#14151a',
-  5: '#ece4d4',
-};
+const SWATCH: Record<number, string> = Object.fromEntries(products.map((p) => [p.id, p.hex]));
 
 export default function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);

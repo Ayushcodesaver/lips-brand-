@@ -4,14 +4,23 @@ import { z } from 'zod';
  * Single source of truth for the catalog. Imported by both the Next.js app
  * and the Convex functions (server-side price validation) — keep it pure.
  */
+export type ProductTag = 'new' | 'best-seller' | 'limited';
+
 export const products = [
-  { id: 0, slug: 'velvet-rouge', name: 'Velvet Rouge', shade: 'Deep Luxury Red', finish: 'High Gloss', price: 2800, x: 0, width: 413, note: 'A rich lacquered red with a deep glass-like shine.' },
-  { id: 1, slug: 'nude-cashmere', name: 'Nude Cashmere', shade: 'Warm Nude', finish: 'Cream', price: 2600, x: 413, width: 399, note: 'A soft skin-warm nude with a velvety cream finish.' },
-  { id: 2, slug: 'rose-silk', name: 'Rose Silk', shade: 'Dusty Rose', finish: 'Satin', price: 2700, x: 812, width: 412, note: 'A muted rose that settles into a quiet satin glow.' },
-  { id: 3, slug: 'champagne-veil', name: 'Champagne Veil', shade: 'Soft Champagne', finish: 'Fine Shimmer', price: 2900, x: 1224, width: 426, note: 'A sheer champagne veil lit with a fine golden shimmer.' },
-  { id: 4, slug: 'midnight-noir', name: 'Midnight Noir', shade: 'Deep Black', finish: 'Ultra Gloss', price: 2800, x: 1650, width: 405, note: 'An inky black lacquer with a mirror-bright finish.' },
-  { id: 5, slug: 'pearl-ivory', name: 'Pearl Ivory', shade: 'Creamy Ivory', finish: 'Cream', price: 2600, x: 2055, width: 419, note: 'A clean creamy ivory, pure and polished.' },
+  { id: 0, slug: 'velvet-rouge', name: 'Velvet Rouge', shade: 'Deep Luxury Red', finish: 'High Gloss', price: 2800, x: 0, width: 413, hex: '#7a1420', tags: ['best-seller'], note: 'A rich lacquered red with a deep glass-like shine.' },
+  { id: 1, slug: 'nude-cashmere', name: 'Nude Cashmere', shade: 'Warm Nude', finish: 'Cream', price: 2600, x: 413, width: 399, hex: '#caa88f', tags: ['best-seller'], note: 'A soft skin-warm nude with a velvety cream finish.' },
+  { id: 2, slug: 'rose-silk', name: 'Rose Silk', shade: 'Dusty Rose', finish: 'Satin', price: 2700, x: 812, width: 412, hex: '#b97383', tags: [], note: 'A muted rose that settles into a quiet satin glow.' },
+  { id: 3, slug: 'champagne-veil', name: 'Champagne Veil', shade: 'Soft Champagne', finish: 'Fine Shimmer', price: 2900, x: 1224, width: 426, hex: '#d9c39a', tags: ['new', 'limited'], note: 'A sheer champagne veil lit with a fine golden shimmer.' },
+  { id: 4, slug: 'midnight-noir', name: 'Midnight Noir', shade: 'Deep Black', finish: 'Ultra Gloss', price: 2800, x: 1650, width: 405, hex: '#14151a', tags: ['new', 'limited'], note: 'An inky black lacquer with a mirror-bright finish.' },
+  { id: 5, slug: 'pearl-ivory', name: 'Pearl Ivory', shade: 'Creamy Ivory', finish: 'Cream', price: 2600, x: 2055, width: 419, hex: '#ece4d4', tags: ['new'], note: 'A clean creamy ivory, pure and polished.' },
 ] as const;
+
+/** Collection selectors shared by the storefront pages. */
+export const byTag = (tag: ProductTag) => products.filter((p) => (p.tags as readonly string[]).includes(tag));
+export const newArrivals = byTag('new');
+export const bestSellers = byTag('best-seller');
+export const limitedEdition = byTag('limited');
+export const nailLacquerCollection = products;
 
 export const money = (cents: number) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cents / 100);

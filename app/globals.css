@@ -94,16 +94,40 @@ ul { list-style: none; }
 
 .store-footer {
   border-top: 1px solid var(--line);
-  padding: 34px 5vw 40px;
+  padding: 44px 5vw 44px;
   display: grid;
-  gap: 16px;
+  gap: 20px;
   justify-items: center;
   text-align: center;
   font-size: 12px;
   color: var(--mid);
 }
-.store-footer nav { display: flex; flex-wrap: wrap; gap: 22px; letter-spacing: 0.08em; }
-.store-footer nav a:hover { color: var(--ink); }
+
+.footer-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 28px;
+  width: 100%;
+  max-width: 980px;
+  text-align: left;
+}
+
+.footer-cols h3 {
+  font-family: var(--font-michroma), Michroma, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.footer-cols div { display: flex; flex-direction: column; gap: 8px; }
+.footer-cols a { transition: color 0.2s; }
+.footer-cols a:hover { color: var(--ink); }
+
+.footer-social { display: flex; gap: 26px; letter-spacing: 0.14em; text-transform: uppercase; font-size: 11px; }
+.footer-social a:hover { color: var(--ink); }
 
 /* ---------- Page title ---------- */
 

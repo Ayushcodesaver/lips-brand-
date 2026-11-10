@@ -15,7 +15,7 @@ const CONVEX_URL = process.env.NEXT_PUBLIC_CONVEX_URL ?? '';
 
 const convex = new ConvexReactClient(CONVEX_URL || 'https://placeholder.convex.cloud');
 
-const SETUP_REQUIRED = ['/account', '/checkout', '/order', '/auth'];
+const SETUP_REQUIRED = ['/account', '/checkout', '/order', '/auth', '/track-order'];
 
 function SetupNotice({ path }: { path: string }) {
   return (
