@@ -8,7 +8,7 @@ import {
   gatewayOrderId,
   usdCentsToInr,
 } from '../lib/cashfree';
-import { currentUser, pricedLines, recomputeTotals, requireUser, validateBagAndAddress } from './validation';
+import { currentUser, pricedLines, recomputeTotals, requireUser, validateBagAndAddress, validateCustomerEmail } from './validation';
 
 const addressArg = {
   full_name: v.string(),
@@ -69,6 +69,7 @@ export const createCashfreeOrder = action({
   handler: async (ctx, args) => {
     const clerkId = await requireUser(ctx);
     const { items, address } = validateBagAndAddress(args.items, args.address);
+    const customerEmail = validateCustomerEmail(args.customerEmail);
     const totals = recomputeTotals(items);
     const amountInr = usdCentsToInr(totals.total, inrRate());
     if (amountInr < 1) throw new Error('Order amount is too small to charge');
@@ -90,7 +91,7 @@ export const createCashfreeOrder = action({
         order_currency: 'INR',
         customer_details: {
           customer_id: clerkId.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 64) || 'guest',
-          customer_email: args.customerEmail,
+          customer_email: customerEmail,
           customer_phone: address.phone.replace(/[^0-9+]/g, '').slice(0, 25),
         },
       }),
@@ -118,6 +119,7 @@ export const verifyAndPlaceOnlineOrder = action({
   handler: async (ctx, args) => {
     const clerkId = await requireUser(ctx);
     const { items, address } = validateBagAndAddress(args.items, args.address);
+    validateCustomerEmail(args.customerEmail);
     const totals = recomputeTotals(items);
     const amountInr = usdCentsToInr(totals.total, inrRate());
 

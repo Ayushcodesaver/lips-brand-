@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { bagSchema, addressSchema, products, totals, type BagItem, type Address } from '../lib/catalog';
 
 /**
@@ -26,6 +27,21 @@ export function recomputeTotals(items: BagItem[]) {
 }
 
 type AuthCtx = { auth: { getUserIdentity(): Promise<{ subject: string } | null> } };
+
+const emailSchema = z.string().trim().max(254).email();
+
+/**
+ * Server-side format validation for the PSP customer email. Audit lead
+ * payments/customer-email-client-asserted: the email cannot currently be bound
+ * to a verified JWT claim (claim availability depends on the Clerk template),
+ * so format validation is enforced here and the trust decision is documented
+ * in NEEDS-VALIDATION.md.
+ */
+export function validateCustomerEmail(raw: string): string {
+  const parsed = emailSchema.safeParse(raw);
+  if (!parsed.success) throw new Error('A valid email address is required');
+  return parsed.data;
+}
 
 /** Resolves the Clerk user id from the verified JWT, or throws. */
 export async function requireUser(ctx: AuthCtx): Promise<string> {

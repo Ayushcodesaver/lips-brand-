@@ -49,6 +49,13 @@ Test cards in sandbox mode: use <https://docs.cashfree.com/docs/test-card-detail
 > For robustness also add a Cashfree **webhook** later (POST endpoint → verify signature → mark order paid);
 > the current flow verifies payment server-side synchronously, which covers the modal checkout path.
 
+> **Security audit** — a source-only audit (Cloudflare security-audit-skill, quick profile) ran against commit
+> `0cddb71`; artifacts live in `~/security-audit-skill/lips-brand/run-1` (REPORT.md, NEEDS-VALIDATION.md,
+> findings.json). Six leads were recorded, all deployment-observable: three are fixed in source since
+> (SDK env mode, frame-ancestors headers, server-side email validation); the remaining three
+> (payment reconciliation webhook, PSP rate-limit cap, SDK integrity pinning) are production-hardening
+> steps to schedule before go-live.
+
 ## 4 · Run the site
 
 ```sh

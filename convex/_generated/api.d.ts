@@ -64,7 +64,7 @@ export declare const api: {
     >;
   };
   payments: {
-    enabled: FunctionReference<'action', 'public', {}, { onlineEnabled: boolean; currency: string }>;
+    enabled: FunctionReference<'action', 'public', {}, { onlineEnabled: boolean; currency: string; env: string }>;
   };
   users: {
     ensure: FunctionReference<'mutation', 'public', { fullName: string; email: string }, string>;

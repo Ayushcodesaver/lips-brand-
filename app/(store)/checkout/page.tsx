@@ -38,7 +38,7 @@ function loadCashfreeSdk(): Promise<NonNullable<Window['Cashfree']>> {
 export default function CheckoutPage() {
   const { isSignedIn } = useAuth();
   const { user: clerkUser } = useUser();
-  const { items } = useStore();
+  const { items, clear } = useStore();
   const router = useRouter();
 
   const placeCodOrder = useAction(api.orders.placeCodOrder);
@@ -52,12 +52,18 @@ export default function CheckoutPage() {
   const [errors, setErrors] = useState<string[]>([]);
   const [method, setMethod] = useState<'online' | 'cod'>('online');
   const [onlineEnabled, setOnlineEnabled] = useState<boolean | null>(null);
+  // The SDK must be initialized in the same environment the server used to
+  // create the session (audit lead checkout/cashfree-sdk-mode-hardcoded-sandbox).
+  const [cashfreeEnv, setCashfreeEnv] = useState<'sandbox' | 'production'>('sandbox');
   const [busy, setBusy] = useState(false);
   const modalOpen = useRef(false);
 
   useEffect(() => {
     void checkPayments({})
-      .then((r) => setOnlineEnabled(r.onlineEnabled))
+      .then((r) => {
+        setOnlineEnabled(r.onlineEnabled);
+        setCashfreeEnv(r.env === 'production' ? 'production' : 'sandbox');
+      })
       .catch(() => setOnlineEnabled(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -77,10 +83,13 @@ export default function CheckoutPage() {
 
   const finish = useCallback(
     async (orderId: string) => {
+      // The server already emptied the stored bag (insertOrderInternal); clear
+      // the client state too so the debounced sync cannot resurrect old items.
+      clear();
       toast.success('Order placed');
       router.push(`/order/${orderId}`);
     },
-    [router],
+    [router, clear],
   );
 
   async function placeOrder() {
@@ -115,7 +124,7 @@ export default function CheckoutPage() {
 
       const created = await createCashfreeOrder({ ...payload, customerEmail: email });
       const Cashfree = await loadCashfreeSdk();
-      const cashfree = new Cashfree('sandbox');
+      const cashfree = new Cashfree(cashfreeEnv);
       modalOpen.current = true;
       const result = await cashfree.checkout({
         paymentSessionId: created.paymentSessionId,
