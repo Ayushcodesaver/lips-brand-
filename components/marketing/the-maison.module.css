@@ -1,0 +1,264 @@
+/* Ported from _orig/the-maison.html <style> block.
+   Global element selectors (html, body, a, button, ul) and `*` reset are
+   covered by globals.css / Tailwind preflight and were dropped. */
+
+.root {
+  --u: min(calc(100vw / 1600), calc(100vh / 900));
+  --ink: #16191f;
+  --mid: #737b86;
+  --dim: #a4adb8;
+  --line: #eeddd9;
+  --ice: #f7ece9;
+}
+
+.wide {
+  font-family: var(--font-michroma), Michroma, sans-serif;
+  text-transform: uppercase;
+}
+
+.root a:focus-visible,
+.root button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.header {
+  position: relative;
+  z-index: 5;
+  background: #faf2f2;
+  padding: calc(20 * var(--u)) calc(46 * var(--u)) calc(15 * var(--u));
+  border-bottom: 1px solid var(--line);
+}
+
+.r1 {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.brand {
+  font-size: calc(15.5 * var(--u));
+  letter-spacing: 0.2em;
+}
+
+.tabs {
+  display: flex;
+  gap: calc(48 * var(--u));
+  font-size: calc(14.5 * var(--u));
+  letter-spacing: 0.14em;
+  color: var(--dim);
+}
+
+.tabs a {
+  transition: color 0.25s;
+}
+.tabs a:hover,
+.tabs .on {
+  color: var(--ink);
+}
+
+.acct {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: calc(22 * var(--u));
+  font-size: calc(9.5 * var(--u));
+  letter-spacing: 0.12em;
+}
+
+.acct svg {
+  width: calc(17 * var(--u));
+  height: calc(17 * var(--u));
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.r2 {
+  display: flex;
+  justify-content: center;
+  gap: calc(60 * var(--u));
+  margin-top: calc(17 * var(--u));
+  font-size: calc(9.5 * var(--u));
+  letter-spacing: 0.14em;
+}
+
+.r2 a {
+  transition: color 0.2s;
+}
+.r2 a:hover {
+  color: var(--mid);
+}
+
+.hero {
+  padding: calc(90 * var(--u)) calc(46 * var(--u)) calc(70 * var(--u));
+  max-width: calc(980 * var(--u));
+}
+
+.kicker {
+  font-size: calc(10 * var(--u));
+  letter-spacing: 0.22em;
+  color: var(--dim);
+}
+
+.hero h1 {
+  font-weight: 400;
+  font-size: calc(54 * var(--u));
+  letter-spacing: 0.12em;
+  margin-top: calc(20 * var(--u));
+}
+
+.lede {
+  margin-top: calc(26 * var(--u));
+  font-size: calc(17 * var(--u));
+  line-height: 1.72;
+  color: var(--mid);
+  max-width: calc(640 * var(--u));
+}
+
+.story {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(60 * var(--u));
+  padding: calc(60 * var(--u)) calc(46 * var(--u));
+  border-top: 1px solid var(--line);
+}
+
+.story h2 {
+  font-weight: 400;
+  font-size: calc(15 * var(--u));
+  letter-spacing: 0.16em;
+  margin-bottom: calc(20 * var(--u));
+}
+
+.story p {
+  color: var(--mid);
+  font-size: calc(14 * var(--u));
+  line-height: 1.75;
+}
+
+.story p + p {
+  margin-top: calc(16 * var(--u));
+}
+
+.values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.values article {
+  background: #faf2f2;
+  padding: calc(46 * var(--u)) calc(40 * var(--u));
+}
+
+.values article:nth-child(2) {
+  background: #fbf4f3;
+}
+
+.values h3 {
+  font-weight: 400;
+  font-size: calc(13 * var(--u));
+  letter-spacing: 0.18em;
+  margin-bottom: calc(16 * var(--u));
+}
+
+.values p {
+  color: var(--mid);
+  font-size: calc(13.5 * var(--u));
+  line-height: 1.7;
+}
+
+.numbers {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: calc(60 * var(--u)) calc(46 * var(--u));
+  gap: calc(30 * var(--u));
+  text-align: center;
+}
+
+.numbers b {
+  display: block;
+  font-weight: 400;
+  font-size: calc(30 * var(--u));
+  letter-spacing: 0.08em;
+}
+
+.numbers span {
+  display: block;
+  margin-top: calc(10 * var(--u));
+  font-size: calc(9.5 * var(--u));
+  letter-spacing: 0.18em;
+  color: var(--dim);
+}
+
+.footer {
+  border-top: 1px solid var(--line);
+  padding: calc(36 * var(--u)) calc(46 * var(--u));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: calc(10 * var(--u));
+  letter-spacing: 0.14em;
+  color: var(--dim);
+}
+
+.footer .links {
+  display: flex;
+  gap: calc(28 * var(--u));
+}
+.footer .links a {
+  transition: color 0.2s;
+}
+.footer .links a:hover {
+  color: var(--ink);
+}
+
+@media (max-width: 820px) {
+  .root {
+    --u: 1px;
+  }
+  .header {
+    padding: 14px 16px 12px;
+  }
+  .r1 {
+    grid-template-columns: 1fr auto;
+  }
+  .tabs,
+  .r2,
+  .acct a:not(:last-child) {
+    display: none;
+  }
+  .brand {
+    font-size: 14px;
+  }
+  .hero {
+    padding: 48px 20px 40px;
+  }
+  .hero h1 {
+    font-size: 30px;
+  }
+  .lede {
+    font-size: 15px;
+  }
+  .story {
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
+    gap: 36px;
+  }
+  .values {
+    grid-template-columns: 1fr;
+  }
+  .numbers {
+    grid-template-columns: 1fr 1fr;
+    padding: 40px 20px;
+  }
+  .footer {
+    padding: 24px 20px;
+  }
+}
